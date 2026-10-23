@@ -2,11 +2,11 @@
 #include <Arduino.h>
 
 // ---------------------------------------------------------------------------
-// Hardware (SparkFun Thing Plus ESP32-S3, from SparkFun's KiCad netlist)
+// Hardware (SparkFun ESP32-C6 Qwiic Pocket / Thing Plus)
 // ---------------------------------------------------------------------------
-constexpr int PIN_QWIIC_EN = 45;  // drives the RT9080 that powers the Qwiic rail (GPS, OLED, Twist)
-constexpr int PIN_SDA = 8;
-constexpr int PIN_SCL = 9;
+constexpr int PIN_QWIIC_EN = 48;  // drives the Qwiic rail (GPS, OLED, Twist)
+constexpr int PIN_SDA = 6;
+constexpr int PIN_SCL = 7;
 constexpr uint32_t I2C_HZ = 400000;
 
 // ---------------------------------------------------------------------------
@@ -56,3 +56,12 @@ constexpr bool USE_YARDS = true;             // false = metres
 constexpr uint32_t LONG_PRESS_MS = 700;      // hold the dial this long to open the menu
 constexpr uint32_t RESULT_SHOW_MS = 4000;    // how long the "152 yds" result stays up
 constexpr uint32_t UI_REFRESH_MS = 250;
+
+// ---------------------------------------------------------------------------
+// WiFi (Access Point for web export)
+// ---------------------------------------------------------------------------
+#define WIFI_AP_ENABLED 0  // disabled by default (use config to enable)
+#define WIFI_AP_SSID "GpsTracker"
+#define WIFI_AP_PASS ""  // empty = open network (no password)
+#define WIFI_AP_IP IPAddress(192, 168, 4, 1)
+#define WIFI_AP_SUBNET IPAddress(255, 255, 255, 0)

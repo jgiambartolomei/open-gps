@@ -1,14 +1,11 @@
 // =====================================================================
-//  Golf Shot Tracker firmware - v0.1
-//  SparkFun Thing Plus ESP32-S3 + NEO-M9N GPS + Qwiic OLED 1.3" + Qwiic Twist
+//  Golf Shot Tracker firmware - ESP32-C6 + NEO-M9N GPS + Qwiic OLED 1.3" + Qwiic Twist
 //
 //  Dial:  turn = choose club / move in menus
 //         click = select / mark position
 //         hold  = open menu (hold again or pick "Back" to close)
 //  Shot:  pick club -> click at the ball (start marked) -> walk to the ball ->
 //         click (landing marked, distance shown). Putter = one click, no landing.
-//         "Hole out" (last slot on the dial, after the putter) finishes the hole.
-//  USB serial (115200): type "help" for export commands.
 // =====================================================================
 #include <Arduino.h>
 #include <Wire.h>
@@ -307,14 +304,11 @@ void undoLast() {
   input.setColor(0, 0, 0);
   ui.power(false);
   // Cut the Qwiic rail (GPS, OLED, Twist) and hold it low through deep sleep.
-  // Tip: cut jumper JP2 on the Thing Plus so the rail defaults OFF and this
-  // pin isn't fighting its 10k pull-up (~330 uA) all night.
   digitalWrite(PIN_QWIIC_EN, LOW);
   // The gauge runs off the cell, so put back its default hibernate thresholds
   // (sample every 45 s instead of 250 ms) while we're off.
   if (fuelOk) { fuel.setHIBRTHibThr((uint8_t)0x80); fuel.setHIBRTActThr((uint8_t)0x30); }
   gpio_hold_en((gpio_num_t)PIN_QWIIC_EN);
-  gpio_deep_sleep_hold_en();
   esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_ALL);  // only RESET (or the EN switch) wakes us
   esp_deep_sleep_start();
   while (true) {}
@@ -720,12 +714,13 @@ void serialPoll() {
 void setup() {
   // Power the Qwiic rail (it may still be held low from the last power-off).
   gpio_hold_dis((gpio_num_t)PIN_QWIIC_EN);
-  gpio_deep_sleep_hold_dis();
   pinMode(PIN_QWIIC_EN, OUTPUT);
   digitalWrite(PIN_QWIIC_EN, HIGH);
   delay(150);
 
   Serial.begin(115200);
+  // Small delay to let serial port initialize
+  delay(100);
   Wire.begin(PIN_SDA, PIN_SCL);
   Wire.setClock(I2C_HZ);
 
