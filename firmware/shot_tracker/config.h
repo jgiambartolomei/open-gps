@@ -33,9 +33,9 @@ constexpr uint16_t MAX_SHOTS = 250;  // per round; ~36 bytes each
 // The putter must be named exactly PUTTER_NAME (putts record one point, no landing).
 #define PUTTER_NAME "Putter"
 static const char* const CLUBS[] = {
-    "Driver", "3 Wood", "5 Wood", "Hybrid", "4 Iron", "5 Iron", "6 Iron",
-    "7 Iron", "8 Iron", "9 Iron", "PW",     "GW",     "SW",     "LW",
-    PUTTER_NAME,
+    "Driver", "3 Wood", "5 Wood", "7 Wood", "5 Iron", "6 Iron",
+    "7 Iron", "8 Iron", "9 Iron", "PW",     "54",     "56",
+    "58",     "60",     PUTTER_NAME,
 };
 constexpr uint8_t NUM_CLUBS = sizeof(CLUBS) / sizeof(CLUBS[0]);
 // The dial has one extra slot after the clubs: "Hole out" (finishes the hole).

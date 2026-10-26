@@ -19,12 +19,12 @@ jobs:
       - name: Run host simulation
         run: make -C firmware/test
 
-  # Compiles the sketch for the Thing Plus ESP32-S3 with the pinned core and libraries.
+  # Compiles the sketch for the Thing Plus ESP32-C6 with the pinned core and libraries.
   firmware:
     runs-on: ubuntu-latest
     env:
       ESP32_CORE: esp32:esp32@3.3.12
-      FQBN: esp32:esp32:sparkfun_esp32s3_thing_plus:CDCOnBoot=cdc,PartitionScheme=default
+      FQBN: esp32:esp32:sparkfun_esp32c6_thing_plus:CDCOnBoot=cdc,PartitionScheme=default
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

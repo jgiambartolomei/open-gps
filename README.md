@@ -8,7 +8,7 @@ A handheld, open-source golf shot tracker built from SparkFun Qwiic parts. Turn 
 > **🛒 [Get every part in one click: SparkFun wishlist](https://www.sparkfun.com/wishlist/shared/index/code/GlRlCXNElCsNx5QNRKp5i46RxsmUJz3x/?affiliate_code=rfxlS0eYyY&referring_service=link)**: all the electronics on one list, ready to add to your cart.
 > <sub>This is a referral link, so buying through it supports the project at no extra cost to you. Prefer not to use it? Every part is listed in [Hardware](#hardware).</sub>
 
-- **Firmware:** Arduino (ESP32-S3). A single-dial UI on a 128×64 OLED. Rounds survive resets and power loss.
+- **Firmware:** Arduino (ESP32-C6). A single-dial UI on a 128×64 OLED. Rounds survive resets and power loss.
 - **Enclosure:** parametric OpenSCAD. It prints in PETG without supports and comes to 74.4 × 74.4 × 31.6 mm.
 - **Host simulation:** the real firmware state machine runs on your computer against stubbed hardware, so most changes can be tested without the device.
 
@@ -30,7 +30,7 @@ A handheld, open-source golf shot tracker built from SparkFun Qwiic parts. Turn 
 
 | Qty | Part | Notes |
 |---|---|---|
-| 1 | SparkFun Thing Plus ESP32-S3 | Main board: USB-C, LiPo charger, MAX17048 fuel gauge, one Qwiic port |
+| 1 | SparkFun Thing Plus ESP32-C6 | Main board: USB-C, LiPo charger, MAX17048 fuel gauge, one Qwiic port |
 | 1 | SparkFun GPS Breakout NEO-M9N, SMA (Qwiic) | Edge-mount SMA jack |
 | 1 | GPS/GNSS Magnetic Mount Antenna, 3 m (SMA) | Active antenna. The breakout powers it. |
 | 1 | SparkFun Qwiic OLED 1.3" 128×64 | Monochrome |
@@ -97,8 +97,8 @@ arduino-cli lib install "SparkFun u-blox GNSS v3" "SparkFun Qwiic OLED Arduino L
 **Verify:**
 
 ```bash
-arduino-cli board listall | grep -i "ESP32-S3 Thing Plus"
-# expected: SparkFun ESP32-S3 Thing Plus   esp32:esp32:sparkfun_esp32s3_thing_plus
+arduino-cli board listall | grep -i "ESP32-C6 Thing Plus"
+# expected: SparkFun ESP32-C6 Thing Plus   esp32:esp32:sparkfun_esp32c6_thing_plus
 arduino-cli lib list | grep -i sparkfun   # expect all four libraries
 ```
 
@@ -109,7 +109,7 @@ These versions are known to work: ESP32 core 3.3.12, u-blox GNSS v3 3.1.15, Qwii
 Run every command from the repository root. The board ID and options are:
 
 ```bash
-FQBN="esp32:esp32:sparkfun_esp32s3_thing_plus:CDCOnBoot=cdc,PartitionScheme=default"
+FQBN="esp32:esp32:sparkfun_esp32c6_thing_plus:CDCOnBoot=cdc,PartitionScheme=default"
 ```
 
 - `CDCOnBoot=cdc` is **required**. Without it, serial over the USB-C port is silent.

@@ -1,6 +1,6 @@
 # Shot Tracker Firmware (v0.1)
 
-Arduino firmware for the SparkFun Thing Plus ESP32-S3 with the NEO-M9N GPS, the Qwiic OLED 1.3" and the Qwiic Twist.
+Arduino firmware for the SparkFun Thing Plus ESP32-C6 with the NEO-M9N GPS, the Qwiic OLED 1.3" and the Qwiic Twist.
 
 ## Controls
 
@@ -83,7 +83,7 @@ To wake it, press the **RESET** button on the lid. The **EN slide switch** on th
 
 **Arduino IDE 2 or arduino-cli, with the Espressif ESP32 core:**
 
-- **Board:** *SparkFun ESP32-S3 Thing Plus* in core 3.x. On older 2.0.x cores, use *ESP32S3 Dev Module* with 4 MB flash.
+- **Board:** *SparkFun ESP32-C6 Thing Plus* in core 3.x. On older 2.0.x cores, use *ESP32C6 Dev Module* with 4 MB flash.
 - **USB CDC On Boot:** *Enabled*. This is needed for serial over the USB-C port.
 - **Partition scheme:** *Default 4MB with spiffs*. LittleFS uses the spiffs partition.
 
@@ -95,7 +95,7 @@ To wake it, press the **RESET** button on the lid. The **EN slide switch** on th
 - SparkFun MAX1704x Fuel Gauge Arduino Library
 
 ```
-arduino-cli compile -b "esp32:esp32:sparkfun_esp32s3_thing_plus:CDCOnBoot=cdc,PartitionScheme=default" firmware/shot_tracker
+arduino-cli compile -b "esp32:esp32:sparkfun_esp32c6_thing_plus:CDCOnBoot=cdc,PartitionScheme=default" firmware/shot_tracker
 ```
 
 ## Flashing
@@ -132,7 +132,7 @@ arduino-cli lib install "SparkFun u-blox GNSS v3" "SparkFun Qwiic OLED Arduino L
    | Windows | `COMx` |
 
 3. **Arduino IDE:** open `firmware/shot_tracker/shot_tracker.ino`.
-   - Set *Tools → Board* to **SparkFun ESP32-S3 Thing Plus**. On older 2.0.x cores, use *ESP32S3 Dev Module* with Flash Size = 4MB.
+   - Set *Tools → Board* to **SparkFun ESP32-C6 Thing Plus**. On older 2.0.x cores, use *ESP32C6 Dev Module* with Flash Size = 4MB.
    - Set *USB CDC On Boot* to **Enabled**.
    - Set *Partition Scheme* to **Default 4MB with spiffs**.
    - Then click **Upload**.
@@ -140,7 +140,7 @@ arduino-cli lib install "SparkFun u-blox GNSS v3" "SparkFun Qwiic OLED Arduino L
    ```
    arduino-cli board listall | grep -i "thing plus"      # confirm the board ID on your core version
    arduino-cli compile --upload -p /dev/cu.usbmodem101 \
-     -b "esp32:esp32:sparkfun_esp32s3_thing_plus:CDCOnBoot=cdc,PartitionScheme=default" \
+     -b "esp32:esp32:sparkfun_esp32c6_thing_plus:CDCOnBoot=cdc,PartitionScheme=default" \
      firmware/shot_tracker
    ```
    On Apple Silicon without Rosetta, add `--build-property tools.ctags.path=$PWD/tools/noop-ctags` (see the top-level README). Keep `CDCOnBoot=cdc`.
@@ -150,7 +150,7 @@ The first boot formats the storage partition, which takes a few seconds with a b
 
 ### If the upload fails or the port disappears
 
-Normally the ESP32-S3 resets itself into upload mode over USB. If the firmware crashes early, or the port never appears:
+Normally the ESP32-C6 resets itself into upload mode over USB. If the firmware crashes early, or the port never appears:
 
 1. Open the case.
 2. **Hold BOOT, tap RESET, then release BOOT.** The board is now in upload mode and a port should appear. It may have a different name than usual.
