@@ -273,6 +273,7 @@ void applyMark(const GeoPoint& p) {
     if (!s) { go(Scr::Club); return; }
     s->end = p;
     s->flags |= SHOT_HAS_END;
+    s->distance = shotDistance(*s);
     saveRound();
     lastResult = shotDistance(*s);
     resultAt = millis();

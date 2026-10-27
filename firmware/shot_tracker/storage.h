@@ -87,7 +87,7 @@ inline void printCoord(Stream& out, const GeoPoint& p) {
 
 inline void exportGeoJSON(const Round& r, Stream& out) {
   out.printf("{\"type\":\"FeatureCollection\",\"properties\":{\"round\":%lu,\"startUnix\":%lu,\"units\":\"%s\"},\"features\":[",
-             (unsigned long)r.h.id, (unsigned long)r.h.startUnix, unitLabel());
+              (unsigned long)r.h.id, (unsigned long)r.h.startUnix, unitLabel());
   bool first = true;
   uint8_t shotOnHole[NUM_HOLES + 1] = {0};
   for (uint16_t i = 0; i < r.h.shotCount; i++) {
@@ -95,14 +95,15 @@ inline void exportGeoJSON(const Round& r, Stream& out) {
     uint8_t n = ++shotOnHole[s.hole <= NUM_HOLES ? s.hole : 0];
     if (!s.start.valid) continue;
     bool line = (s.flags & SHOT_HAS_END) && s.end.valid;
+    int d = s.distance ? s.distance : shotDistance(s);
     if (!first) out.print(',');
     first = false;
     out.print("{\"type\":\"Feature\",\"geometry\":{\"type\":");
     if (line) { out.print("\"LineString\",\"coordinates\":["); printCoord(out, s.start); out.print(','); printCoord(out, s.end); out.print("]}"); }
     else      { out.print("\"Point\",\"coordinates\":"); printCoord(out, s.start); out.print('}'); }
     out.printf(",\"properties\":{\"hole\":%u,\"shot\":%u,\"club\":\"%s\",\"distance\":%d,\"putt\":%s,\"startAccM\":%.1f,\"endAccM\":%.1f,\"startUnix\":%lu,\"endUnix\":%lu}}",
-               s.hole, n, CLUBS[s.club % NUM_CLUBS], shotDistance(s), (s.flags & SHOT_PUTT) ? "true" : "false",
-               s.start.hacc_dm / 10.0, s.end.hacc_dm / 10.0, (unsigned long)s.start.unix, (unsigned long)s.end.unix);
+                s.hole, n, CLUBS[s.club % NUM_CLUBS], d, (s.flags & SHOT_PUTT) ? "true" : "false",
+                s.start.hacc_dm / 10.0, s.end.hacc_dm / 10.0, (unsigned long)s.start.unix, (unsigned long)s.end.unix);
   }
   out.println("]}");
 }
@@ -113,13 +114,14 @@ inline void exportCSV(const Round& r, Stream& out) {
   for (uint16_t i = 0; i < r.h.shotCount; i++) {
     const Shot& s = r.shots[i];
     uint8_t n = ++shotOnHole[s.hole <= NUM_HOLES ? s.hole : 0];
+    int d = s.distance ? s.distance : shotDistance(s);
     bool hasEnd = s.flags & SHOT_HAS_END;
     out.printf("%u,%u,%s,%d,", s.hole, n, CLUBS[s.club % NUM_CLUBS], (s.flags & SHOT_PUTT) ? 1 : 0);
     if (s.start.valid) out.printf("%.7f,%.7f,%.1f,", s.start.lat_e7 / 1e7, s.start.lon_e7 / 1e7, s.start.hacc_dm / 10.0);
     else out.print(",,,");
     if (hasEnd && s.end.valid) out.printf("%.7f,%.7f,%.1f,", s.end.lat_e7 / 1e7, s.end.lon_e7 / 1e7, s.end.hacc_dm / 10.0);
     else out.print(",,,");
-    out.printf("%d,%lu,%lu\n", shotDistance(s), (unsigned long)s.start.unix, (unsigned long)s.end.unix);
+    out.printf("%d,%lu,%lu\n", d, (unsigned long)s.start.unix, (unsigned long)s.end.unix);
   }
 }
 

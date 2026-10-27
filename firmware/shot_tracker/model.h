@@ -22,6 +22,7 @@ struct Shot {
   uint8_t hole = 0;  // 1..NUM_HOLES
   uint8_t club = 0;  // index into CLUBS
   uint8_t flags = 0;
+  uint16_t distance = 0;  // distance in display units, 0 if unknown
   uint8_t reserved = 0;
   GeoPoint start;
   GeoPoint end;
@@ -29,7 +30,7 @@ struct Shot {
 
 // On-disk header. Bump ROUND_VERSION if Shot/RoundHeader layout changes.
 constexpr uint32_t ROUND_MAGIC = 0x474F4C46;  // "GOLF"
-constexpr uint16_t ROUND_VERSION = 1;
+constexpr uint16_t ROUND_VERSION = 2;
 
 struct RoundHeader {
   uint32_t magic = ROUND_MAGIC;
